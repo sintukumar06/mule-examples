@@ -10,7 +10,4 @@ http://www.mulesoft.org/schema/mule/wsc http://www.mulesoft.org/schema/mule/wsc/
 		<http:listener-connection host="0.0.0.0" port="8081" />
 	</http:listener-config>
 	<configuration-properties doc:name="Configuration properties" doc:id="8970eba5-fbf2-4660-b809-2d68d9a7fbf5" file="app.yaml" />
-	<wsc:config name="Web_Service_Consumer_Config" doc:name="Web Service Consumer Config" doc:id="c05733d7-dea5-446c-ab2e-8ec6411ee31c" >
-		<wsc:connection wsdlLocation="http://www.crcind.com/csp/samples/SOAP.Demo.CLS?wsdl" service="SOAPDemo" port="SOAPDemoSoap" address="http://www.crcind.com/csp/samples/SOAP.Demo.cls"/>
-	</wsc:config>
 </mule>

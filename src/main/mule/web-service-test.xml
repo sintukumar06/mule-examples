@@ -8,6 +8,9 @@
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/wsc http://www.mulesoft.org/schema/mule/wsc/current/mule-wsc.xsd">
+	<wsc:config name="Web_Service_Consumer_Config" doc:name="Web Service Consumer Config" doc:id="54d1932c-9575-4358-a866-a82833fff135" >
+		<wsc:connection wsdlLocation="http://www.crcind.com/csp/samples/SOAP.Demo.CLS?wsdl" service="SOAPDemo" port="SOAPDemoSoap" address="http://www.crcind.com/csp/samples/SOAP.Demo.cls"/>
+	</wsc:config>
 	<flow name="web-service-testFlow" doc:id="fc16f15e-f954-4fb6-8127-2f6e44808204">
 		<http:listener doc:name="Listener" doc:id="6ad488a5-fbe5-45ae-9727-20a85ec17681" config-ref="HTTP_Listener_config" path="/ws" />
 		<logger level="INFO" doc:name="Logger" doc:id="756e91e5-6a76-4f58-ad9d-2d980b2a6a17" message="## Received Request ##" />
