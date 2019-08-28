@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:wsc="http://www.mulesoft.org/schema/mule/wsc" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/wsc http://www.mulesoft.org/schema/mule/wsc/current/mule-wsc.xsd">
+	<global-property doc:name="Global Property" doc:id="aaeafde5-d72f-4880-bf4d-8efcb96244e1" name="env" value="local" />
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="7c8609f1-eb10-4597-8963-d7d521167d19" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<configuration-properties doc:name="Configuration properties" doc:id="8970eba5-fbf2-4660-b809-2d68d9a7fbf5" file="app.yaml" />
+	<wsc:config name="Web_Service_Consumer_Config" doc:name="Web Service Consumer Config" doc:id="c05733d7-dea5-446c-ab2e-8ec6411ee31c" >
+		<wsc:connection wsdlLocation="http://www.crcind.com/csp/samples/SOAP.Demo.CLS?wsdl" service="SOAPDemo" port="SOAPDemoSoap" address="http://www.crcind.com/csp/samples/SOAP.Demo.cls"/>
+	</wsc:config>
+</mule>
