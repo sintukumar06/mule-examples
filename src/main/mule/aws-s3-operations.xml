@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:s3="http://www.mulesoft.org/schema/mule/s3"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/s3 http://www.mulesoft.org/schema/mule/s3/current/mule-s3.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<s3:config name="Amazon_S3_Configuration" doc:name="Amazon S3 Configuration" doc:id="8450e394-73df-4147-b58f-5ffd5f2f1db0" >
+		<s3:basic-connection accessKey="AKIA4REP4AWZ4WFNV3TY" secretKey="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" region="AP_SOUTH_1"/>
+	</s3:config>
+	<flow name="aws-s3-operationsFlow" doc:id="ce8612d9-25eb-4ed7-80d1-a22025a0608d" >
+		<http:listener doc:name="Listener" doc:id="d24d82e4-b09e-4bd9-a7ef-daff36edf717" config-ref="HTTP_Listener_config" path="/s3/buckets" allowedMethods="GET"/>
+		<logger level="INFO" doc:name="Logger" doc:id="9f774661-50b5-4116-acc6-bcd957fbef91" message="Starting AWS S3 call"/>
+		<s3:list-buckets doc:name="List buckets" doc:id="f587f049-f88b-44c4-86b1-76c881f1c6ca" config-ref="Amazon_S3_Configuration"/>
+		<ee:transform doc:name="Transform Message" doc:id="3a20c054-146d-4069-81bb-8e3fb7c9d6f2" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="eee6ea42-75f2-4a60-a862-a2d3fd729482" message="response -- #[payload]"/>
+	</flow>
+	<flow name="aws-s3-operationsFlow1" doc:id="2841a4d9-2026-48b8-9d0a-1f371cb8cf13" >
+		<http:listener doc:name="Listener" doc:id="efe824cf-b10c-4ec8-a69c-036c0c812009" config-ref="HTTP_Listener_config" path="/s3/buckets/{bucketId}" allowedMethods="GET"/>
+		<logger level="INFO" doc:name="Logger" doc:id="a0f5cb7f-455f-452c-9d1d-ad5e9c0cd56d" message="AWS call started"/>
+		<s3:list-objects doc:name="List objects" doc:id="070b9da2-d6b0-4fb0-b5ad-a628b09a3729" config-ref="Amazon_S3_Configuration" bucketName="#[attributes.uriParams.bucketId]"/>
+		<ee:transform doc:name="Transform Message" doc:id="a11f595b-2e39-4433-b34d-1af609c1ce3c" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="93f1eca8-e7ed-475a-9f2d-ef9f85596c36" message="payload -------- #[payload]"/>
+	</flow>
+</mule>
