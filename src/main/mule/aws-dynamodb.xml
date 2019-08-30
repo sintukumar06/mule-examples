@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:dynamodb="http://www.mulesoft.org/schema/mule/dynamodb"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/dynamodb http://www.mulesoft.org/schema/mule/dynamodb/current/mule-dynamodb.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<dynamodb:config name="Amazon_DynamoDB_Configuration" doc:name="Amazon DynamoDB Configuration" doc:id="54b9aaa8-7e5e-4b4f-b7e5-da415adcc2f9" >
+		<dynamodb:basic-connection accessKey="AKIA4REP4AWZ4WFNV3TY" secretKey="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" />
+	</dynamodb:config>
+	<flow name="aws-dynamodbFlow" doc:id="f4cbe2a3-deb2-4162-bbda-bad5fdd22023" >
+		<http:listener doc:name="Listener" doc:id="33609d1c-c254-4b11-aa88-889e213621ee" config-ref="HTTP_Listener_config" path="/dynamo/tables/{tableName}" allowedMethods="GET"/>
+		<logger level="INFO" doc:name="Logger" doc:id="c048da80-3e97-4c3a-ab8a-483f994b0ca9" message="Starting AWS call ----"/>
+		<dynamodb:scan doc:name="Scan" doc:id="d8bfbac7-8441-4ee7-a9d5-667e159523c3" config-ref="Amazon_DynamoDB_Configuration" tableName="#[attributes.uriParams.tableName]"/>
+		<ee:transform doc:name="Transform Message" doc:id="7d52358f-6f24-4f35-b806-bb89b7761ef8" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="e458781b-f7ae-411b-b8cf-ab9512127cd7" message="payload ------------ #[payload]"/>
+	</flow>
+</mule>
